@@ -1,34 +1,12 @@
-// db.js
 import mysql from 'mysql2/promise';
+import dotenv from 'dotenv';
+dotenv.config();
 
-const pool = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: 'N3x!9rT@qLz#7VpB', 
-  database: 'conectar',   // Debe coincidir con la DB que usás
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
-  namedPlaceholders: true 
+const db = mysql.createPool({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
 });
 
-(async () => {
-  try {
-    const connection = await pool.getConnection();
-    console.log('✅ Conectado a la base de datos MySQL (mercado)');
-    
-    const [tables] = await connection.query(`
-      SELECT TABLE_NAME 
-      FROM INFORMATION_SCHEMA.TABLES 
-      WHERE TABLE_SCHEMA = 'mercado'
-    `);
-    
-    console.log('📊 Tablas existentes:', tables.map(t => t.TABLE_NAME));
-    connection.release();
-  } catch (err) {
-    console.error('❌ Error al conectar con la base de datos:', err);
-    process.exit(1);
-  }
-})();
-
-export default pool;
+export default db;
