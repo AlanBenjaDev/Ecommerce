@@ -12,31 +12,32 @@ function Comprador() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    const cargarProductos = async () => {
-      setCargando(true);
-      setError('');
-      try {
-        const res = await fetch('https://ecommerce-qf2e.onrender.com/api/productos/producto');
-        if (!res.ok) {
-          throw new Error(`Error del servidor: ${res.status}`);
-        }
-        const data = await res.json();
+   const cargarProductos = async () => {
+  setCargando(true);
+  setError('');
+  try {
+    const res = await fetch('https://ecommerce-qf2e.onrender.com/api/productos/producto', {
+      credentials: 'include' 
+    });
 
-        // Validar que data sea array para evitar errores .filter
-        if (!Array.isArray(data)) {
-          throw new Error('La respuesta no es un arreglo');
-        }
+    if (!res.ok) {
+      throw new Error(`Error del servidor: ${res.status}`);
+    }
 
-        setProductos(data);
-      } catch (err) {
-        console.error('❌ Error al cargar productos:', err);
-        setError('No se pudieron cargar los productos. Intenta de nuevo más tarde.');
-      } finally {
-        setCargando(false);
-      }
-    };
+    const data = await res.json();
 
-    cargarProductos();
+    if (!Array.isArray(data)) {
+      throw new Error('La respuesta no es un arreglo');
+    }
+
+    setProductos(data);
+  } catch (err) {
+    console.error('❌ Error al cargar productos:', err);
+    setError('No se pudieron cargar los productos. Intenta de nuevo más tarde.');
+  } finally {
+    setCargando(false);
+  }
+};
   }, []);
 
   useEffect(() => {

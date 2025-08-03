@@ -7,7 +7,14 @@ function Home() {
   const [productos, setProductos] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/productos')
+    fetch('http://localhost:3000/api/productos',{
+
+      method:'GET',
+      credentials:'include'
+    })
+          
+
+
       .then(res => res.json())
       .then(data => setProductos(data))
       .catch(err => console.error('❌ Error al cargar productos:', err));

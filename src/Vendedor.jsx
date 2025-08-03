@@ -35,6 +35,8 @@ function Vendedor() {
       const res = await fetch('https://ecommerce-qf2e.onrender.com/api/productos/vendedor', {
         method: 'POST',
         body: formData,
+     credentials:'include',
+
       });
 
       if (res.ok) {

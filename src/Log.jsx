@@ -16,7 +16,9 @@ function Log() {
       const res = await fetch('https://ecommerce-qf2e.onrender.com/api/usuarios/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ user, password })
+        body: JSON.stringify({ user, password }),
+                credentials:'include',
+
       });
 
       const data = await res.json();
