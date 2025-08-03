@@ -38,6 +38,7 @@ function Comprador() {
     setCargando(false);
   }
 };
+cargarProductos()
   }, []);
 
   useEffect(() => {

@@ -128,7 +128,7 @@ function Vendedor() {
           {products.map(p => (
             <div key={p.id} className="border p-3 rounded shadow">
               <img
-                src={`http://localhost:3000${p.img_url}`}
+                src={`https://ecommerce-qf2e.onrender.com${p.img_url}`}
                 alt={p.producto}
                 className="w-full h-40 object-cover mb-2 rounded"
               />
