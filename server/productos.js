@@ -1,5 +1,5 @@
 import express from 'express';
-import pool from './db.js';
+import db from './db.js';
 import multer from 'multer';
 import fs from 'fs';
 

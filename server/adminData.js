@@ -1,5 +1,6 @@
 import express from 'express';
-import pool from './db.js'
+import db from './db.js'
+
 const router = express.Router();
 const saltRounds = 10;
 router.get('/dashboard', async (req, res) => {

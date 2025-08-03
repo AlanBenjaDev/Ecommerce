@@ -9,4 +9,14 @@ const db = mysql.createPool({
   database: process.env.DB_DATABASE,
 });
 
+(async () => {
+  try {
+    const connection = await db.getConnection();
+    console.log('✅ Conexión a la base de datos establecida correctamente');
+    connection.release(); 
+  } catch (err) {
+    console.error('❌ Error al conectar con la base de datos:', err.message);
+  }
+})();
+
 export default db;
