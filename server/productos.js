@@ -19,7 +19,7 @@ const upload = multer({ storage });
 // Obtener todos los productos
 router.get('/producto', async (req, res) => {
   try {
-    const [productos] = await pool.query('SELECT * FROM productos');
+    const [productos] = await db.query('SELECT * FROM productos');
     console.log("Productos recibidos:", productos);
     res.status(200).json(productos);
   } catch (err) {
@@ -42,14 +42,14 @@ router.post('/vendedor', upload.single('imagen'), async (req, res) => {
       return res.status(400).json({ error: 'Faltan datos del producto o imagen' });
     }
 
-    const [result] = await pool.query(
+    const [result] = await db.query(
       `INSERT INTO productos (producto, descripcion, precio, stock, img_url)
        VALUES (?, ?, ?, ?, ?)`,
       [producto, descripcion, parseFloat(precio), parseInt(stock), imagen]
     );
 
 
-    const [nuevoProducto] = await pool.query('SELECT * FROM productos WHERE id = ?', [result.insertId]);
+    const [nuevoProducto] = await db.query('SELECT * FROM productos WHERE id = ?', [result.insertId]);
 
     res.status(201).json(nuevoProducto[0]);
   } catch (err) {
@@ -66,7 +66,7 @@ router.put('/producto/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
-    await pool.query(
+    await db.query(
       'UPDATE productos SET producto = ?, descripcion = ?, precio = ?, stock = ? WHERE id = ?',
       [producto, descripcion, precio, stock, id]
     );
@@ -81,7 +81,7 @@ router.put('/producto/:id', async (req, res) => {
 router.delete('/producto/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    await pool.query('DELETE FROM productos WHERE id = ?', [id]);
+    await db.query('DELETE FROM productos WHERE id = ?', [id]);
     res.status(200).json({ message: 'Producto eliminado' });
   } catch (err) {
     console.error('❌ Error al eliminar producto:', err);

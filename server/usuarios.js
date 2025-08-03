@@ -15,7 +15,7 @@ router.post('/register', async (req, res) => {
 
     const hash = await bcrypt.hash(password, saltRounds);
 
-    await pool.query(
+    await db.query(
       'INSERT INTO usuarios (user, email, password) VALUES (?, ?, ?)',
       [user, email, hash]
     );
@@ -38,7 +38,7 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ error: 'Faltan datos' });
     }
 
-    const [results] = await pool.query(
+    const [results] = await db.query(
       'SELECT id, user, email, password FROM usuarios WHERE user = ?',
       [user]
     );
@@ -68,7 +68,7 @@ router.put('/usuario/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
-    await pool.query(
+    await db.query(
       'UPDATE usuarios SET email = ?, role = ? WHERE id = ?',
       [email, role, id]
     );
@@ -83,7 +83,7 @@ router.put('/usuario/:id', async (req, res) => {
 router.delete('/usuario/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    await pool.query('DELETE FROM usuarios WHERE id = ?', [id]);
+    await db.query('DELETE FROM usuarios WHERE id = ?', [id]);
     res.status(200).json({ message: 'Usuario eliminado' });
   } catch (err) {
     console.error('❌ Error al eliminar usuario:', err);
