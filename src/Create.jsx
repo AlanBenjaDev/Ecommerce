@@ -24,7 +24,7 @@ function Create() {
 
       if (res.ok) {
         alert('Registro exitoso ✅');
-        navigate('/home'); // <-- Redirecciona al Home
+        navigate('/home'); 
       } else {
         alert(data.error || 'Error al registrar');
       }
