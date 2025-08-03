@@ -10,7 +10,7 @@ function Vendedor() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/productos/producto')
+    fetch('https://ecommerce-qf2e.onrender.com/api/productos/producto')
       .then(res => res.json())
       .then(data => setProducts(data))
       .catch(console.error);
@@ -32,7 +32,7 @@ function Vendedor() {
     formData.append('imagen', imagen);
 
     try {
-      const res = await fetch('http://localhost:3000/api/productos/vendedor', {
+      const res = await fetch('https://ecommerce-qf2e.onrender.com/api/productos/vendedor', {
         method: 'POST',
         body: formData,
       });

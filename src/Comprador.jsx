@@ -16,7 +16,7 @@ function Comprador() {
       setCargando(true);
       setError('');
       try {
-        const res = await fetch('http://localhost:3000/api/productos/producto');
+        const res = await fetch('https://ecommerce-qf2e.onrender.com/api/productos/producto');
         if (!res.ok) {
           throw new Error(`Error del servidor: ${res.status}`);
         }
