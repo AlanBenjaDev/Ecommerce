@@ -11,7 +11,7 @@ const app = express();
 const PORT = process.env.PORT || 3000; 
 
 app.use(cors({
-origin:process.env.URLFRONTEND,
+origin:process.env.URLFRONTEND || 'alanbenjaminandrada@gmail.com',
 credentials:true
 
 }));
