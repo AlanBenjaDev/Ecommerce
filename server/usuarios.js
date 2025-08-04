@@ -39,7 +39,7 @@ router.post('/login', async (req, res) => {
     }
 
     const [results] = await db.query(
-      'SELECT id, user, email, password FROM usuarios WHERE user = ?',
+      'SELECT id, username, email, password FROM usuarios WHERE username = ?',
       [user]
     );
 
