@@ -35,7 +35,7 @@ router.post('/vendedor', upload.single('imagen'), async (req, res) => {
     const imagen = req.file ? `/uploads/${req.file.filename}` : null;
 
     if (!producto || !descripcion || !precio || !stock || !imagen) {
-      // Si hubo upload, borrar archivo
+
       if (req.file) {
         fs.unlinkSync(req.file.path);
       }
@@ -60,7 +60,7 @@ router.post('/vendedor', upload.single('imagen'), async (req, res) => {
     res.status(500).json({ error: 'Error al guardar producto' });
   }
 });
-// PUT - editar producto
+
 router.put('/producto/:id', async (req, res) => {
   const { producto, descripcion, precio, stock } = req.body;
   const { id } = req.params;

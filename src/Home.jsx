@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import ProductoCard from './ProductCard'; // Asegurate que este nombre coincida con tu archivo
+import ProductCard from './ProductCard'; // Asegurate que este nombre coincida con tu archivo
 
 function Home() {
   const [productos, setProductos] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/productos',{
+    fetch('https://ecommerce-qf2e.onrender.com/api/productos/producto',{
 
       method:'GET',
       credentials:'include'
@@ -39,7 +39,7 @@ function Home() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {productos.slice(0, 3).map(p => (
-            <ProductoCard
+            <ProductCard
               key={p.id}
               nombre={p.producto}
               descripcion={p.descripcion}
