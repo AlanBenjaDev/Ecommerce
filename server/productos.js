@@ -2,18 +2,10 @@ import express from 'express';
 import db from './db.js';
 import multer from 'multer';
 import fs from 'fs';
+import { storage } from './cloudinary.js';
 
 const router = express.Router();
 
-// Configuración multer para uploads de imágenes
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // carpeta uploads debe existir
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + '-' + file.originalname);
-  }
-});
 const upload = multer({ storage });
 
 // Obtener todos los productos
@@ -32,15 +24,8 @@ router.get('/producto', async (req, res) => {
 router.post('/vendedor', upload.single('imagen'), async (req, res) => {
   try {
     const { producto, descripcion, precio, stock } = req.body;
-    const imagen = req.file ? `/uploads/${req.file.filename}` : null;
-
+   const imagen = req.file.path;
     if (!producto || !descripcion || !precio || !stock || !imagen) {
-
-      if (req.file) {
-        fs.unlinkSync(req.file.path);
-      }
-      return res.status(400).json({ error: 'Faltan datos del producto o imagen' });
-    }
 
     const [result] = await db.query(
       `INSERT INTO productos (producto, descripcion, precio, stock, img_url)
@@ -54,9 +39,7 @@ router.post('/vendedor', upload.single('imagen'), async (req, res) => {
     res.status(201).json(nuevoProducto[0]);
   } catch (err) {
     console.error('❌ Error al guardar producto:', err);
-    if (req.file) {
-      fs.unlinkSync(req.file.path);
-    }
+
     res.status(500).json({ error: 'Error al guardar producto' });
   }
 });
