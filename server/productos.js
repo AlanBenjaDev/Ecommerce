@@ -1,13 +1,10 @@
+// productoRoutes.js
 import express from 'express';
 import db from './db.js';
-import multer from 'multer';
-import fs from 'fs';
-import { storage } from './cloudinary.js';
-
+import upload from './upload.js'; // ✅ corregido
 const router = express.Router();
-const upload = multer({ storage });
 
-// Obtener todos los productos
+// ✅ Obtener todos los productos
 router.get('/producto', async (req, res) => {
   try {
     const [productos] = await db.query('SELECT * FROM productos');
@@ -19,14 +16,18 @@ router.get('/producto', async (req, res) => {
   }
 });
 
-// Subir nuevo producto
+// ✅ Subir nuevo producto
 router.post('/vendedor', upload.single('imagen'), async (req, res) => {
   try {
     const { producto, descripcion, precio, stock } = req.body;
+
+    if (!req.file || !req.file.path) {
+      return res.status(400).json({ error: 'No se recibió imagen' });
+    }
+
     const imagen = req.file.path;
 
-    // 👇 ACÁ FALTABA ESTA LLAVE {
-    if (!producto || !descripcion || !precio || !stock || !imagen) {
+    if (!producto || !descripcion || !precio || !stock) {
       return res.status(400).json({ error: 'Faltan campos obligatorios' });
     }
 

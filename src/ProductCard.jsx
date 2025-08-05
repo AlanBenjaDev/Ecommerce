@@ -3,7 +3,7 @@ function ProductCard({ nombre, descripcion, precio, img_url }) {
   return (
     <div className="bg-white p-4 rounded shadow hover:scale-105 transition-all">
       <img
-        src={`https://ecommerce-qf2e.onrender.com${img_url}`}
+        src={img_url}
         alt={nombre}
         className="w-full h-40 object-cover rounded mb-2"
       />
